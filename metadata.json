@@ -1,0 +1,10 @@
+{
+  "name": "Remix: ESEM",
+  "description": "AI-powered personalized skincare guidance based on questionnaire or selfie analysis.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
