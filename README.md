@@ -136,6 +136,9 @@ All four calls use a strict JSON response schema (via Gemini's structured output
 
 <img width="509" height="420" alt="Routine check-in result" src="https://github.com/user-attachments/assets/41593e58-bd9a-4d3f-b0d4-72ecc7118312" />
 
+<img width="523" height="420" alt="Routine check-in result 2" src="https://github.com/user-attachments/assets/9db513c4-cee1-46c7-b35e-23c90ec465ef" />
+
+
 
 6. **Ingredient Checker** — a checked ingredient list with its verdict
 
