@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, Camera, Upload, ShieldAlert, Sparkles, RefreshCw, Loader2, Check, AlertCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { SkincareAnalysis } from '../types';
+import { BrandedLoadingOverlay } from './BrandedLoadingOverlay';
 
 interface PhotoAnalysisFlowProps {
   onBack: () => void;
@@ -143,7 +145,12 @@ export const PhotoAnalysisFlow: React.FC<PhotoAnalysisFlowProps> = ({
   };
 
   return (
-    <div className="max-w-xl mx-auto pb-12 space-y-6">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="max-w-xl mx-auto pb-12 space-y-6"
+    >
       {/* Back Header Bar */}
       <div className="flex items-center justify-between">
         <button
@@ -161,7 +168,12 @@ export const PhotoAnalysisFlow: React.FC<PhotoAnalysisFlowProps> = ({
 
       {/* Mandatory Pre-Analysis Disclaimer Step */}
       {!disclaimerAccepted ? (
-        <div className="bg-white rounded-2xl border border-rose-200 p-6 sm:p-8 shadow-xs space-y-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className="bg-white rounded-2xl border border-rose-200 p-6 sm:p-8 shadow-xs space-y-6"
+        >
           <div className="w-12 h-12 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center">
             <ShieldAlert className="w-6 h-6" />
           </div>
@@ -189,7 +201,9 @@ export const PhotoAnalysisFlow: React.FC<PhotoAnalysisFlowProps> = ({
               </span>
             </label>
 
-            <button
+            <motion.button
+              whileHover={disclaimerAccepted ? { scale: 1.01 } : undefined}
+              whileTap={disclaimerAccepted ? { scale: 0.99 } : undefined}
               onClick={() => setDisclaimerAccepted(true)}
               id="continue-photo-analysis-btn"
               disabled={!disclaimerAccepted}
@@ -197,12 +211,17 @@ export const PhotoAnalysisFlow: React.FC<PhotoAnalysisFlowProps> = ({
             >
               <span>Continue to Selfie Scan</span>
               <Check className="w-4 h-4" />
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       ) : (
         /* Photo Upload & Camera Workspace */
-        <div className="bg-white rounded-2xl border border-rose-100/80 p-6 sm:p-8 shadow-xs space-y-6">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, ease: 'easeOut' }}
+          className="bg-white rounded-2xl border border-rose-100/80 p-6 sm:p-8 shadow-xs space-y-6"
+        >
           <div>
             <h2 className="text-2xl font-serif font-semibold text-slate-800">
               Upload or Take a Selfie
@@ -251,7 +270,10 @@ export const PhotoAnalysisFlow: React.FC<PhotoAnalysisFlowProps> = ({
 
             {/* Case B: Photo Captured / Uploaded */}
             {!useCameraMode && selectedImage && (
-              <img
+              <motion.img
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.25 }}
                 src={selectedImage}
                 alt="Selected selfie preview"
                 className="w-full h-full object-contain bg-slate-950"
@@ -276,45 +298,51 @@ export const PhotoAnalysisFlow: React.FC<PhotoAnalysisFlowProps> = ({
           <div className="space-y-3">
             {useCameraMode ? (
               <div className="flex gap-3">
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   type="button"
                   onClick={captureCameraPhoto}
                   id="capture-photo-btn"
-                  className="flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs sm:text-sm transition-all cursor-pointer flex items-center justify-center gap-2"
+                  className="flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs sm:text-sm transition-colors cursor-pointer flex items-center justify-center gap-2"
                 >
                   <Camera className="w-4 h-4" />
                   <span>Snap Photo</span>
-                </button>
+                </motion.button>
                 <button
                   type="button"
                   onClick={stopCamera}
                   id="cancel-camera-btn"
-                  className="py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs transition-all cursor-pointer"
+                  className="py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
               </div>
             ) : (
               <div className="grid grid-cols-2 gap-3">
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   type="button"
                   onClick={startCamera}
                   id="use-webcam-btn"
-                  className="py-3 px-4 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 font-medium text-xs sm:text-sm transition-all cursor-pointer flex items-center justify-center gap-2"
+                  className="py-3 px-4 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 font-medium text-xs sm:text-sm transition-colors cursor-pointer flex items-center justify-center gap-2"
                 >
                   <Camera className="w-4 h-4" />
                   <span>Use Camera</span>
-                </button>
+                </motion.button>
 
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   id="upload-file-btn"
-                  className="py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-medium text-xs sm:text-sm transition-all cursor-pointer flex items-center justify-center gap-2"
+                  className="py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-medium text-xs sm:text-sm transition-colors cursor-pointer flex items-center justify-center gap-2"
                 >
                   <Upload className="w-4 h-4" />
                   <span>Upload Image</span>
-                </button>
+                </motion.button>
 
                 <input
                   ref={fileInputRef}
@@ -330,7 +358,9 @@ export const PhotoAnalysisFlow: React.FC<PhotoAnalysisFlowProps> = ({
             {/* Submit / Analyze Action */}
             {selectedImage && !useCameraMode && (
               <div className="pt-2 space-y-2">
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
                   type="button"
                   onClick={handleAnalyzePhoto}
                   disabled={isLoading}
@@ -348,7 +378,7 @@ export const PhotoAnalysisFlow: React.FC<PhotoAnalysisFlowProps> = ({
                       <span>Analyze Selfie for Skincare Routine</span>
                     </>
                   )}
-                </button>
+                </motion.button>
 
                 <button
                   type="button"
@@ -361,8 +391,19 @@ export const PhotoAnalysisFlow: React.FC<PhotoAnalysisFlowProps> = ({
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
       )}
-    </div>
+
+      {/* Loading Overlay */}
+      <AnimatePresence>
+        {isLoading && (
+          <BrandedLoadingOverlay
+            title="Analyzing Visual Surface Cues"
+            subtitle="Evaluating tone, hydration, and surface texture to tailor your routine..."
+            icon="droplet"
+          />
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };

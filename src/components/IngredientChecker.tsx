@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ArrowLeft, FlaskConical, CheckCircle2, AlertTriangle, XCircle, Loader2, Sparkles, HelpCircle, RefreshCw } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { SkincareAnalysis, IngredientCheckResult } from '../types';
+import { BrandedLoadingOverlay } from './BrandedLoadingOverlay';
 
 interface IngredientCheckerProps {
   onBack: () => void;
@@ -90,7 +92,12 @@ export const IngredientChecker: React.FC<IngredientCheckerProps> = ({
   };
 
   return (
-    <div className="max-w-2xl mx-auto pb-12 space-y-6">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="max-w-2xl mx-auto pb-12 space-y-6"
+    >
       {/* Back Bar */}
       <div className="flex items-center justify-between">
         <button
@@ -107,7 +114,12 @@ export const IngredientChecker: React.FC<IngredientCheckerProps> = ({
       </div>
 
       {/* Main Workspace Card */}
-      <div className="bg-white rounded-3xl border border-rose-100/90 p-6 sm:p-8 shadow-xs space-y-6">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: 'easeOut' }}
+        className="bg-white rounded-3xl border border-rose-100/90 p-6 sm:p-8 shadow-xs space-y-6"
+      >
         <div>
           <h2 className="text-2xl font-serif font-semibold text-slate-800 flex items-center gap-2">
             <FlaskConical className="w-6 h-6 text-emerald-700" />
@@ -185,15 +197,17 @@ export const IngredientChecker: React.FC<IngredientCheckerProps> = ({
             <span className="text-[11px] font-semibold text-slate-500">Try a sample ingredient list:</span>
             <div className="flex flex-wrap gap-2">
               {SAMPLE_INGREDIENT_LISTS.map((sample, idx) => (
-                <button
+                <motion.button
                   key={idx}
                   type="button"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={() => loadSample(sample.ingredients)}
                   id={`sample-btn-${idx}`}
-                  className="px-2.5 py-1 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-[11px] font-medium text-slate-600 cursor-pointer"
+                  className="px-2.5 py-1 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-[11px] font-medium text-slate-600 cursor-pointer transition-colors"
                 >
                   {sample.title}
-                </button>
+                </motion.button>
               ))}
             </div>
           </div>
@@ -204,7 +218,9 @@ export const IngredientChecker: React.FC<IngredientCheckerProps> = ({
             </div>
           )}
 
-          <button
+          <motion.button
+            whileHover={ingredientsText.trim() && !isLoading ? { scale: 1.01 } : undefined}
+            whileTap={ingredientsText.trim() && !isLoading ? { scale: 0.99 } : undefined}
             type="submit"
             disabled={isLoading || !ingredientsText.trim()}
             id="check-ingredients-submit-btn"
@@ -221,12 +237,17 @@ export const IngredientChecker: React.FC<IngredientCheckerProps> = ({
                 <span>Check Compatibility</span>
               </>
             )}
-          </button>
+          </motion.button>
         </form>
 
         {/* RESULTS CARD DISPLAY */}
         {result && (
-          <div className="pt-6 border-t border-slate-100 space-y-6 animate-fade-in">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            className="pt-6 border-t border-slate-100 space-y-6"
+          >
             {/* Verdict Header */}
             <div className={`p-5 rounded-2xl border flex items-start gap-4 ${
               result.verdict === 'Good fit'
@@ -315,9 +336,20 @@ export const IngredientChecker: React.FC<IngredientCheckerProps> = ({
                 <p className="text-slate-200 leading-relaxed">{result.recommendation}</p>
               </div>
             )}
-          </div>
+          </motion.div>
         )}
-      </div>
-    </div>
+      </motion.div>
+
+      {/* Branded Loading Overlay */}
+      <AnimatePresence>
+        {isLoading && (
+          <BrandedLoadingOverlay
+            title="Analyzing Product Ingredients"
+            subtitle="Cross-referencing formulation with active skin profile and sensitizers..."
+            icon="droplet"
+          />
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };

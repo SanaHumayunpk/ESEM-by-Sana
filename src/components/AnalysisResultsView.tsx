@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Sun, Moon, CheckCircle2, AlertTriangle, ShieldCheck, ArrowLeft, Printer, FlaskConical, Check, Copy, RefreshCw, Sparkles, MessageSquare } from 'lucide-react';
+import { motion } from 'motion/react';
 import { SkincareAnalysis } from '../types';
 import { getAnalysisChain } from '../lib/storage';
 
@@ -55,7 +56,12 @@ Disclaimer: ${analysis.disclaimer}
   };
 
   return (
-    <div className="max-w-3xl mx-auto pb-16 space-y-6">
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      className="max-w-3xl mx-auto pb-16 space-y-6"
+    >
       {/* Top Header Actions */}
       <div className="flex flex-wrap items-center justify-between gap-3 print:hidden">
         <button
@@ -68,32 +74,38 @@ Disclaimer: ${analysis.disclaimer}
         </button>
 
         <div className="flex flex-wrap items-center gap-2">
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => onOpenCheckIn(analysis)}
             id="results-checkin-btn"
             className="px-3.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-medium transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
           >
             <RefreshCw className="w-3.5 h-3.5 text-emerald-200" />
             <span>Check in on this routine</span>
-          </button>
+          </motion.button>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={handleCopyRoutine}
             id="copy-routine-btn"
             className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
             <span>{copied ? 'Copied!' : 'Copy Routine'}</span>
-          </button>
+          </motion.button>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={handlePrint}
             id="print-routine-btn"
             className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
           >
             <Printer className="w-3.5 h-3.5" />
             <span>Print</span>
-          </button>
+          </motion.button>
         </div>
       </div>
 
@@ -384,14 +396,16 @@ Disclaimer: ${analysis.disclaimer}
                 </p>
               </div>
 
-              <button
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => onOpenCheckIn(analysis)}
                 id="bottom-checkin-btn"
                 className="w-full py-2.5 rounded-xl bg-white text-emerald-950 font-semibold text-xs hover:bg-emerald-50 transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 <RefreshCw className="w-4 h-4 text-emerald-700" />
                 <span>Check in on this routine</span>
-              </button>
+              </motion.button>
             </div>
 
             <div className="bg-slate-900 text-white rounded-2xl p-5 space-y-3 flex flex-col justify-between">
@@ -405,17 +419,19 @@ Disclaimer: ${analysis.disclaimer}
                 </p>
               </div>
 
-              <button
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => onOpenIngredientChecker(analysis)}
                 id="results-test-ingredients-btn"
                 className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Check Ingredients Now</span>
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

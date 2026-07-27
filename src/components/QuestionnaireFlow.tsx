@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Sparkles, Check, ChevronRight, Loader2, Info } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { QuestionnaireInput, SkinFeel, MainConcern, SensitivityLevel, SkincareAnalysis } from '../types';
+import { BrandedLoadingOverlay } from './BrandedLoadingOverlay';
 
 interface QuestionnaireFlowProps {
   onBack: () => void;
@@ -43,17 +45,21 @@ export const QuestionnaireFlow: React.FC<QuestionnaireFlowProps> = ({
   onBack,
   onAnalysisComplete,
 }) => {
-  const [skinFeel, setSkinFeel] = useState<SkinFeel>('Combination');
-  const [mainConcern, setMainConcern] = useState<MainConcern>('Acne / Breakouts');
-  const [sensitivity, setSensitivity] = useState<SensitivityLevel>('Medium');
+  const [skinFeel, setSkinFeel] = useState<SkinFeel | null>(null);
+  const [mainConcern, setMainConcern] = useState<MainConcern | null>(null);
+  const [sensitivity, setSensitivity] = useState<SensitivityLevel | null>(null);
   const [currentRoutine, setCurrentRoutine] = useState<string>('');
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingTipIndex, setLoadingTipIndex] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const isFormValid = skinFeel !== null && mainConcern !== null && sensitivity !== null;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isFormValid || !skinFeel || !mainConcern || !sensitivity) return;
+
     setIsLoading(true);
     setErrorMessage(null);
 
@@ -111,7 +117,12 @@ export const QuestionnaireFlow: React.FC<QuestionnaireFlowProps> = ({
   };
 
   return (
-    <div className="max-w-2xl mx-auto pb-12 space-y-6">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="max-w-2xl mx-auto pb-12 space-y-6"
+    >
       {/* Header Back Bar */}
       <div className="flex items-center justify-between">
         <button
@@ -128,7 +139,12 @@ export const QuestionnaireFlow: React.FC<QuestionnaireFlowProps> = ({
       </div>
 
       {/* Main Title Card */}
-      <div className="bg-white rounded-2xl border border-rose-100/80 p-6 sm:p-8 shadow-xs space-y-6">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: 'easeOut' }}
+        className="bg-white rounded-2xl border border-rose-100/80 p-6 sm:p-8 shadow-xs space-y-6"
+      >
         <div>
           <h2 className="text-2xl font-serif font-semibold text-slate-800">
             Tell us about your skin
@@ -150,7 +166,12 @@ export const QuestionnaireFlow: React.FC<QuestionnaireFlowProps> = ({
 
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Question 1: Skin Feel */}
-          <div className="space-y-3">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.05 }}
+            className="space-y-3"
+          >
             <label className="block font-serif font-medium text-slate-800 text-sm sm:text-base">
               1. How does your skin typically feel by midday?
             </label>
@@ -158,14 +179,18 @@ export const QuestionnaireFlow: React.FC<QuestionnaireFlowProps> = ({
               {SKIN_FEEL_OPTIONS.map((opt) => {
                 const isSelected = skinFeel === opt.label;
                 return (
-                  <button
+                  <motion.button
                     key={opt.label}
                     type="button"
                     id={`skin-feel-opt-${opt.label}`}
                     onClick={() => setSkinFeel(opt.label)}
-                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer flex items-start gap-3 ${
+                    whileHover={{ scale: 1.015 }}
+                    whileTap={{ scale: 0.985 }}
+                    animate={{ scale: isSelected ? 1.015 : 1 }}
+                    transition={{ duration: 0.2 }}
+                    className={`p-3.5 rounded-xl border text-left transition-colors cursor-pointer flex items-start gap-3 ${
                       isSelected
-                        ? 'border-emerald-600 bg-emerald-50/70 shadow-2xs'
+                        ? 'border-emerald-600 bg-emerald-50/80 shadow-2xs'
                         : 'border-slate-200 bg-white hover:border-slate-300'
                     }`}
                   >
@@ -179,14 +204,19 @@ export const QuestionnaireFlow: React.FC<QuestionnaireFlowProps> = ({
                       </div>
                       <p className="text-[11px] text-slate-500 mt-0.5">{opt.description}</p>
                     </div>
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
-          </div>
+          </motion.div>
 
           {/* Question 2: Main Concern */}
-          <div className="space-y-3">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+            className="space-y-3"
+          >
             <label className="block font-serif font-medium text-slate-800 text-sm sm:text-base">
               2. What is your primary skin concern right now?
             </label>
@@ -194,14 +224,18 @@ export const QuestionnaireFlow: React.FC<QuestionnaireFlowProps> = ({
               {MAIN_CONCERN_OPTIONS.map((opt) => {
                 const isSelected = mainConcern === opt.label;
                 return (
-                  <button
+                  <motion.button
                     key={opt.label}
                     type="button"
                     id={`main-concern-opt-${opt.label}`}
                     onClick={() => setMainConcern(opt.label)}
-                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer flex items-start justify-between ${
+                    whileHover={{ scale: 1.015 }}
+                    whileTap={{ scale: 0.985 }}
+                    animate={{ scale: isSelected ? 1.015 : 1 }}
+                    transition={{ duration: 0.2 }}
+                    className={`p-3.5 rounded-xl border text-left transition-colors cursor-pointer flex items-start justify-between ${
                       isSelected
-                        ? 'border-emerald-600 bg-emerald-50/70 shadow-2xs'
+                        ? 'border-emerald-600 bg-emerald-50/80 shadow-2xs'
                         : 'border-slate-200 bg-white hover:border-slate-300'
                     }`}
                   >
@@ -212,14 +246,19 @@ export const QuestionnaireFlow: React.FC<QuestionnaireFlowProps> = ({
                       <p className="text-[11px] text-slate-500 mt-0.5">{opt.description}</p>
                     </div>
                     {isSelected && <Check className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5 ml-2" />}
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
-          </div>
+          </motion.div>
 
           {/* Question 3: Sensitivity Level */}
-          <div className="space-y-3">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.15 }}
+            className="space-y-3"
+          >
             <label className="block font-serif font-medium text-slate-800 text-sm sm:text-base">
               3. What is your skin's sensitivity level?
             </label>
@@ -227,12 +266,16 @@ export const QuestionnaireFlow: React.FC<QuestionnaireFlowProps> = ({
               {SENSITIVITY_OPTIONS.map((opt) => {
                 const isSelected = sensitivity === opt.label;
                 return (
-                  <button
+                  <motion.button
                     key={opt.label}
                     type="button"
                     id={`sensitivity-opt-${opt.label}`}
                     onClick={() => setSensitivity(opt.label)}
-                    className={`p-3.5 rounded-xl border text-center transition-all cursor-pointer ${
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    animate={{ scale: isSelected ? 1.02 : 1 }}
+                    transition={{ duration: 0.2 }}
+                    className={`p-3.5 rounded-xl border text-center transition-colors cursor-pointer ${
                       isSelected
                         ? 'border-emerald-600 bg-emerald-50/80 font-bold text-emerald-900 shadow-2xs'
                         : 'border-slate-200 bg-white hover:border-slate-300 text-slate-700'
@@ -242,14 +285,19 @@ export const QuestionnaireFlow: React.FC<QuestionnaireFlowProps> = ({
                     <span className="text-[10px] text-slate-500 font-normal hidden sm:block mt-1">
                       {opt.description.slice(0, 30)}...
                     </span>
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
-          </div>
+          </motion.div>
 
           {/* Question 4: Current Routine (Optional Free Text) */}
-          <div className="space-y-2">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+            className="space-y-2"
+          >
             <label className="block font-serif font-medium text-slate-800 text-sm">
               4. Current skincare routine <span className="text-slate-400 font-normal text-xs">(optional)</span>
             </label>
@@ -264,15 +312,17 @@ export const QuestionnaireFlow: React.FC<QuestionnaireFlowProps> = ({
             <p className="text-[11px] text-slate-500">
               Mentioning what you currently use helps Gemini avoid suggesting overlapping or harsh steps.
             </p>
-          </div>
+          </motion.div>
 
           {/* Submit Button */}
-          <div className="pt-4">
-            <button
+          <div className="pt-4 space-y-2">
+            <motion.button
+              whileHover={isFormValid && !isLoading ? { scale: 1.01 } : undefined}
+              whileTap={isFormValid && !isLoading ? { scale: 0.99 } : undefined}
               type="submit"
-              disabled={isLoading}
+              disabled={!isFormValid || isLoading}
               id="submit-questionnaire-btn"
-              className="w-full py-3.5 px-6 rounded-xl bg-emerald-700 hover:bg-emerald-800 disabled:opacity-60 text-white font-medium text-sm transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3.5 px-6 rounded-xl bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium text-sm transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
             >
               {isLoading ? (
                 <>
@@ -282,35 +332,29 @@ export const QuestionnaireFlow: React.FC<QuestionnaireFlowProps> = ({
               ) : (
                 <>
                   <Sparkles className="w-4 h-4" />
-                  <span>Get My Custom Skincare Guidance</span>
+                  <span>{isFormValid ? 'Get My Custom Skincare Guidance' : 'Please select options for questions 1–3'}</span>
                 </>
               )}
-            </button>
+            </motion.button>
+            {!isFormValid && (
+              <p className="text-[11px] text-center text-slate-400">
+                Select an option for questions 1, 2, and 3 to generate your routine.
+              </p>
+            )}
           </div>
         </form>
-      </div>
+      </motion.div>
 
-      {/* Loading Modal / Overlay */}
-      {isLoading && (
-        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-xl border border-rose-100">
-            <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 mx-auto flex items-center justify-center">
-              <Sparkles className="w-6 h-6 animate-pulse" />
-            </div>
-            <div className="space-y-1">
-              <h3 className="font-serif text-lg font-semibold text-slate-800">
-                Crafting Your Skincare Routine
-              </h3>
-              <p className="text-xs text-slate-500 min-h-[36px] flex items-center justify-center animate-fade-in">
-                {LOADING_TIPS[loadingTipIndex]}
-              </p>
-            </div>
-            <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
-              <div className="bg-emerald-600 h-full w-2/3 animate-pulse rounded-full" />
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+      {/* Branded Loading Overlay */}
+      <AnimatePresence>
+        {isLoading && (
+          <BrandedLoadingOverlay
+            title="Formulating Your Routine"
+            subtitle={LOADING_TIPS[loadingTipIndex]}
+            icon="sparkles"
+          />
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };

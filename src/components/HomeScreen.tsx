@@ -1,5 +1,6 @@
 import React from 'react';
 import { ClipboardList, Camera, FlaskConical, History, ArrowRight, ShieldCheck, Sparkles, ChevronRight, CheckCircle2, RefreshCw } from 'lucide-react';
+import { motion } from 'motion/react';
 import { SkincareAnalysis } from '../types';
 
 interface HomeScreenProps {
@@ -24,7 +25,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const latestAnalysis = history.length > 0 ? history[0] : null;
 
   return (
-    <div className="space-y-8 pb-12">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      className="space-y-8 pb-12"
+    >
       {/* Hero Banner */}
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-rose-50/90 via-white to-emerald-50/60 border border-rose-100/80 p-6 sm:p-10 shadow-xs">
         <div className="absolute -top-12 -right-12 w-48 h-48 bg-rose-100/50 rounded-full blur-2xl pointer-events-none" />
@@ -66,7 +72,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* Option 1: Questionnaire */}
-          <div
+          <motion.div
+            whileHover={{ y: -3, scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ duration: 0.2 }}
             onClick={onStartQuestionnaire}
             id="start-questionnaire-card"
             className="group relative bg-white rounded-2xl border border-emerald-100/80 p-6 sm:p-7 shadow-2xs hover:shadow-md hover:border-emerald-300 transition-all cursor-pointer flex flex-col justify-between"
@@ -92,10 +101,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <span>Start Questionnaire</span>
               <ArrowRight className="w-4 h-4" />
             </div>
-          </div>
+          </motion.div>
 
           {/* Option 2: Selfie Analysis */}
-          <div
+          <motion.div
+            whileHover={{ y: -3, scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ duration: 0.2 }}
             onClick={onStartPhoto}
             id="start-photo-card"
             className="group relative bg-white rounded-2xl border border-rose-100/80 p-6 sm:p-7 shadow-2xs hover:shadow-md hover:border-rose-300 transition-all cursor-pointer flex flex-col justify-between"
@@ -121,7 +133,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <span>Upload or Take Photo</span>
               <ArrowRight className="w-4 h-4" />
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -148,14 +160,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           )}
         </div>
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={onOpenChecker}
           id="home-open-checker-btn"
           className="w-full md:w-auto px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs sm:text-sm transition-all shadow-sm flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer shrink-0"
         >
           <span>Open Ingredient Checker</span>
           <ArrowRight className="w-4 h-4" />
-        </button>
+        </motion.button>
       </section>
 
       {/* "My Skin History" Section */}
@@ -206,8 +220,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {history.slice(0, 3).map((item) => (
-              <div
+              <motion.div
                 key={item.id}
+                whileHover={{ y: -2, scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                transition={{ duration: 0.2 }}
                 onClick={() => onSelectHistoryItem(item)}
                 id={`history-item-card-${item.id}`}
                 className="bg-white rounded-2xl border border-slate-200/80 p-5 hover:border-emerald-300 hover:shadow-xs transition-all cursor-pointer flex flex-col justify-between space-y-4 group"
@@ -259,11 +276,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
       </section>
-    </div>
+    </motion.div>
   );
 };
