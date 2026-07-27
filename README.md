@@ -1,17 +1,18 @@
 # ESEM — Honest, Personalized Skincare Guidance
 
 **Live app:** [https://esem-by-sana.vercel.app](https://esem-by-sana.vercel.app)
-**Built by:** Sana Humayun
+       **Built by:** Sana Humayun
 
 ---
-
 ## a. What ESEM is, and why I built it
 
 ESEM is a web app that gives people structured, personalized skincare guidance — either from a short questionnaire or from a selfie — instead of the confusing, contradictory advice most people get from random YouTube videos, Instagram ads, or "what worked for my cousin."
 
-The name is personal. **ESEM = S + M** — **S**ana (me) and **M**amuna (my mother). This project is the first step toward a skincare brand I've been wanting to build for a while, and this app is where that starts.
+This project is personal to me in more ways than one. My mother has always dreamed of building a skincare business, and I will fulfill her dream (InshaAllah). ESEM carries her initial alongside mine (**S** for Sana, **M** for Mamuna) because this is meant to be a first step toward that vision, not just a class project. 
 
-**The real problem:** Most people especially in Pakistan don't actually know their skin type or what routine fits their concerns. They either overspend on imported products that don't suit them, follow generic advice that ignores what's actually available locally, or avoid dealing with it altogether because a dermatologist visit feels like overkill for "just some breakouts." At the same time, skincare advice online is scattered, inconsistent, and rarely accounts for what's realistically available in local pharmacies and stores.
+I also come from a marketing background, not a technical one — I'd never built or shipped an app before this, let alone integrated AI into one. Learning to build and ship an application end-to-end for a problem I genuinely care about is exactly why this project mattered to me far beyond the assignment itself.
+
+**The real problem:** Most people, especially in Pakistan, don't actually know their skin type or what routine fits their concerns. They either overspend on imported products that don't suit them, follow generic advice that ignores what's actually available locally, or avoid dealing with it altogether because a dermatologist visit feels like overkill for "just some breakouts." At the same time, skincare advice online is scattered, inconsistent, and rarely accounts for what's realistically available in local pharmacies and stores.
 
 **Who it's for:** Anyone who wants a clear, honest starting point for their skincare — without an expensive derm visit for routine, non-medical concerns, and without wading through fifty conflicting "holy grail" product recommendations online. I built it with a Pakistani audience specifically in mind, since that's the gap I kept noticing myself, running my own skincare venture and constantly fielding "what should I use for X" questions from friends and family.
 
