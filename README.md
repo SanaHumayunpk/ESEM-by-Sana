@@ -130,6 +130,8 @@ All four calls use a strict JSON response schema (via Gemini's structured output
 
 <img width="582" height="420" alt="Night Routine" src="https://github.com/user-attachments/assets/9fb15dac-b837-4d28-8c7d-02b16c361151" />
 
+<img width="610" height="439" alt="ingredient guide" src="https://github.com/user-attachments/assets/e5482a57-8da7-4050-9416-9c36c26dbf3a" />
+
 
 5. **Routine Check-In** — the feedback form and an updated routine with the "what changed" explanation
 
